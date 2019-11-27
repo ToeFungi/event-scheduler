@@ -1,7 +1,6 @@
 import * as uuid from 'uuid'
-import * as DynamoDB from 'aws-sdk/clients/dynamodb'
 
-import { AWSError } from 'aws-sdk'
+import { AWSError, DynamoDB } from 'aws-sdk'
 import { PutItemInput, PutItemOutput } from 'aws-sdk/clients/dynamodb'
 
 import { DynamoEvent } from '../types/DynamoEvent'

@@ -1,3 +1,5 @@
+import 'moment-timezone'
+
 import * as uuid from 'uuid'
 import * as moment from 'moment'
 
@@ -22,6 +24,7 @@ class SchedulerService {
       id: uuid.v4(),
       payload: event,
       scheduledTime: moment(event.scheduledTime)
+        .tz('UTC')
         .format('YYYY-MM-DDTHH:mm')
     }
 

@@ -23,7 +23,7 @@ describe('SchedulerService', () => {
   let schedulerService: SchedulerService
 
   beforeEach(() => {
-    set('2019-11-27T13:47:32.846Z')
+    set('2019-11-27T15:47:32.846Z')
     uuidStub = sandbox.stub(uuid, 'v4')
       .returns('fcbdebcc-8f4f-4a95-b15d-502868626a6d')
 
