@@ -1,0 +1,14 @@
+{
+  "scheduledTime": "2019-11-27T13:47",
+  "id": "fcbdebcc-8f4f-4a95-b15d-502868626a6d",
+  "payload": {
+    "message": {
+      "foo": "bar"
+    },
+    "scheduledTime": "2019-11-27T13:47:32.846Z",
+    "callback": {
+      "type": "HTTP",
+      "url": "http://some-url.com"
+    }
+  }
+}
