@@ -1,5 +1,5 @@
 {
-  "name": "time-based-event-scheduler",
+  "name": "event-scheduler",
   "version": "1.0.0",
   "description": "Time based event scheduler using DDB",
   "main": "index.ts",
