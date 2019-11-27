@@ -11,8 +11,6 @@ cache:
 
 stages:
   - setup
-  - audit
-  - lint
   - test
   - sonar
 
