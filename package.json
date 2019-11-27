@@ -1,7 +1,7 @@
 {
   "name": "event-scheduler",
   "version": "1.0.0",
-  "description": "Time based event scheduler using DDB",
+  "description": "Time based event scheduler using AWS infrastructure",
   "main": "index.ts",
   "scripts": {
     "build": "tsc",
