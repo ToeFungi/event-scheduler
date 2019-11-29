@@ -8,7 +8,6 @@ cache:
     - '$HOME/.sonar/cache'
     - 'node_modules'
     - 'coverage'
-    - '$HOME/build'
 
 stages:
   - setup
@@ -16,8 +15,6 @@ stages:
   - lint
   - test
   - sonar
-  - build
-  - deploy
 
 jobs:
   include:
@@ -40,13 +37,3 @@ jobs:
         sonarcloud:
           token:
             secure: "$SONAR_API_KEY"
-    - stage: build
-      script:
-        - npm run build
-    - stage: deploy
-      deploy:
-        provider: lambda
-        function_name: "event-scheduler"
-        region: "eu-west-1"
-        file:
-          - $HOME/build/index.zip
