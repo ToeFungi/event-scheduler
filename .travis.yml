@@ -45,4 +45,5 @@ jobs:
         - npm run build
     - stage: deploy
       script:
-        - aws lambda update-function-code --function-name event-scheduler --zip-file ./build/index.zip --publish
+        - pip install awscli
+        - aws lambda update-function-code --function-name event-scheduler --zip-file $HOME/build/index.zip --publish
