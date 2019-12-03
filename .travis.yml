@@ -12,27 +12,27 @@ cache:
 
 stages:
   - setup
-  - audit
-  - lint
-  - test
+#  - audit
+#  - lint
+#  - test
   - sonar
-  - build
-  - deploy
+#  - build
+#  - deploy
 
 jobs:
   include:
     - stage: setup
       script:
         - npm i
-    - stage: audit
-      script:
-        - npm audit
-    - stage: lint
-      script:
-        - npm run lint
-    - stage: test
-      script:
-        - npm run coverage
+#    - stage: audit
+#      script:
+#        - npm audit
+#    - stage: lint
+#      script:
+#        - npm run lint
+#    - stage: test
+#      script:
+#        - npm run coverage
     - stage: sonar
       script:
         - sonar-scanner
@@ -40,16 +40,16 @@ jobs:
         sonarcloud:
           token:
             secure: '$SONAR_API_KEY'
-    - stage: build
-      script:
-        - sed -i 's/<GIT_HASH>/$TRAVIS_COMMIT/g' src/lib/Version.ts
-        - npm run build
-    - stage: deploy
-      deploy:
-        provider: lambda
-        function_name: 'event-scheduler'
-        region: 'eu-west-1'
-        role: 'arn:aws:iam::062883748514:role/service-role/time-based-event-scheduler-role-086pzy6k'
-        handler_name: 'handler'
-        runtime: 'nodejs10.x'
-        zip: './build/index.zip'
+#    - stage: build
+#      script:
+#        - sed -i 's/<GIT_HASH>/$TRAVIS_COMMIT/g' src/lib/Version.ts
+#        - npm run build
+#    - stage: deploy
+#      deploy:
+#        provider: lambda
+#        function_name: 'event-scheduler'
+#        region: 'eu-west-1'
+#        role: 'arn:aws:iam::062883748514:role/service-role/time-based-event-scheduler-role-086pzy6k'
+#        handler_name: 'handler'
+#        runtime: 'nodejs10.x'
+#        zip: './build/index.zip'
