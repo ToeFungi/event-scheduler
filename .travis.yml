@@ -37,3 +37,9 @@ jobs:
         sonarcloud:
           token:
             secure: "$SONAR_API_KEY"
+    - stage: build
+      script:
+        - npm run build
+    - stage: deploy
+      script:
+        - npm run deploy
