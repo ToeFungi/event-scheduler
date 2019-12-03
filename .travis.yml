@@ -8,32 +8,45 @@ cache:
     - '$HOME/.sonar/cache'
     - 'node_modules'
     - 'coverage'
+    - 'build'
 
 stages:
   - setup
-  - audit
-  - lint
-  - test
-  - sonar
+#  - audit
+#  - lint
+#  - test
+#  - sonar
+  - build
+  - deploy
 
 jobs:
   include:
     - stage: setup
       script:
         - npm i
-    - stage: audit
+#    - stage: audit
+#      script:
+#        - npm audit
+#    - stage: lint
+#      script:
+#        - npm run lint
+#    - stage: test
+#      script:
+#        - npm run coverage
+#    - stage: sonar
+#      script:
+#        - sonar-scanner
+#      addons:
+#        sonarcloud:
+#          token:
+#            secure: "$SONAR_API_KEY"
+    - stage: build
       script:
-        - npm audit
-    - stage: lint
-      script:
-        - npm run lint
-    - stage: test
-      script:
-        - npm run coverage
-    - stage: sonar
-      script:
-        - sonar-scanner
-      addons:
-        sonarcloud:
-          token:
-            secure: "$SONAR_API_KEY"
+        - npm run build
+    - stage: deploy
+      deploy:
+        provider: lambda
+        function_name: "event-scheduler"
+        region: "eu-west-1"
+        handler_name: "handler"
+        zip: "./build/index.zip"

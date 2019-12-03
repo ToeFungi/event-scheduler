@@ -6,7 +6,7 @@ import { DynamoRepository } from './repositories/DynamoRepository'
 
 // Repository
 const dynamoDB = new DynamoDB({
-  region: process.env.AWS_REGION,
+  region: 'eu-west-1',
   apiVersion: '2012-08-10'
 })
 const ddbRepository = new DynamoRepository(dynamoDB)
