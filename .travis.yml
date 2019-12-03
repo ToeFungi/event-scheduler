@@ -48,5 +48,6 @@ jobs:
         provider: lambda
         function_name: "event-scheduler"
         region: "eu-west-1"
+        role: "arn:aws:iam::062883748514:role/service-role/time-based-event-scheduler-role-086pzy6k"
         handler_name: "handler"
         zip: "./build/index.zip"
