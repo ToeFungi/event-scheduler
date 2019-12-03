@@ -20,7 +20,7 @@ script:
   - npm audit
   - npm run lint
   - npm run coverage
-  - sed -i 's/<GIT_HASH>/$TRAVIS_COMMIT/g' src/lib/Version.ts
+  - sed -i 's/<GIT_HASH>/$GIT_HASH/g' src/lib/Version.ts
   - npm run build
   - sonar-scanner
 
