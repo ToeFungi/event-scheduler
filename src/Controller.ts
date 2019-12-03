@@ -28,6 +28,7 @@ class Controller {
     }
 
     console.log('Attempting to schedule event', { event })
+    console.log('REGION', { region: process.env.AWS_REGION })
     return this.schedulerService.createEvent(event)
       .then(tapResponse)
       .catch(tapError)
