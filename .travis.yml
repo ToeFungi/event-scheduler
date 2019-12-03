@@ -48,8 +48,8 @@ jobs:
       deploy:
         provider: lambda
         function_name: 'event-scheduler'
-        region: 'eu-west-1'
-        role: 'arn:aws:iam::062883748514:role/service-role/time-based-event-scheduler-role-086pzy6k'
+        region: '$AWS_REGION'
+        role: '$AWS_LAMBDA_ROLE'
         handler_name: 'handler'
         runtime: 'nodejs10.x'
         zip: './build/index.zip'
