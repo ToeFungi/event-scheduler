@@ -8,6 +8,7 @@ cache:
     - '$HOME/.sonar/cache'
     - 'node_modules'
     - 'coverage'
+    - 'build'
 
 stages:
   - setup
@@ -15,6 +16,8 @@ stages:
   - lint
   - test
   - sonar
+  - build
+  - deploy
 
 jobs:
   include:
