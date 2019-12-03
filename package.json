@@ -7,8 +7,7 @@
     "build": "webpack",
     "test": "mocha",
     "coverage": "nyc --reporter=lcov mocha",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "deploy": "aws lambda update-function-code --function-name event-scheduler --zip-file fileb://./build/index.zip"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "keywords": [
     "Time-based",
