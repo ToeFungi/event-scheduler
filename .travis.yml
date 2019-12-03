@@ -17,7 +17,21 @@ addons:
 
 script:
   - npm i
+  - npm audit
+  - npm run lint
+  - npm run coverage
+  - sed -i 's/<GIT_HASH>/$TRAVIS_COMMIT/g' src/lib/Version.ts
+  - npm run build
   - sonar-scanner
+
+deploy:
+  provider: lambda
+  function_name: 'event-scheduler'
+  region: 'eu-west-1'
+  role: 'arn:aws:iam::062883748514:role/service-role/time-based-event-scheduler-role-086pzy6k'
+  handler_name: 'handler'
+  runtime: 'nodejs10.x'
+  zip: './build/index.zip'
 
 #stages:
 #  - setup
