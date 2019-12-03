@@ -1,14 +1,14 @@
 language: node_js
 
 node_js:
-  - '10'
+  - "10"
 
 cache:
   directories:
-    - '$HOME/.sonar/cache'
-    - 'node_modules'
-    - 'coverage'
-    - 'build'
+    - "$HOME/.sonar/cache"
+    - "node_modules"
+    - "coverage"
+    - "build"
 
 stages:
   - setup
@@ -39,7 +39,7 @@ jobs:
       addons:
         sonarcloud:
           token:
-            secure: '$SONAR_API_KEY'
+            secure: "$SONAR_API_KEY"
 #    - stage: build
 #      script:
 #        - sed -i 's/<GIT_HASH>/$TRAVIS_COMMIT/g' src/lib/Version.ts
