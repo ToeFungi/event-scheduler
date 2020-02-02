@@ -1,36 +1,38 @@
-import { AWSError } from 'aws-sdk'
-
+import { Response } from './types/Response'
+import { Validator } from './types/Validator'
+import { ErrorMapper } from './errors/ErrorMapper'
 import { ScheduledEvent } from './types/ScheduledEvent'
 import { SchedulerService } from './services/SchedulerService'
+
+import * as incomingRequestSchema from '../schemas/incoming-request-schema.json'
 
 /**
  * Controller orchestrates the various services and repositories to schedule an event
  */
 class Controller {
-  constructor(protected schedulerService: SchedulerService) {
+  constructor(protected validator: Validator, protected schedulerService: SchedulerService) {
   }
 
   /**
    * Handles the incoming schedule event request
    */
-  public handler(event: ScheduledEvent): Promise<void> {
+  public handler(event: ScheduledEvent): Promise<Response> {
     /**
      * Tap response and log success
      */
-    const tapResponse = () => console.log('Successfully scheduled event')
-
-    /**
-     * Tap and log error and rethrow the error
-     */
-    const tapError = (error: AWSError): never => {
-      console.error('Error creating scheduled event', JSON.stringify({ message: error.message }))
-      throw error
+    const tapResponse = (): Response => {
+      console.log('Successfully scheduled event')
+      return {
+        body: 'Message accepted for scheduling',
+        statusCode: 201
+      }
     }
 
     console.log('Attempting to schedule event', { event })
-    return this.schedulerService.createEvent(event)
+    return this.validator.validate<ScheduledEvent>(event, incomingRequestSchema)
+      .then(this.schedulerService.createEvent.bind(this.schedulerService))
       .then(tapResponse)
-      .catch(tapError)
+      .catch(ErrorMapper.mapError)
   }
 }
 
