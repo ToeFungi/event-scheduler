@@ -2,7 +2,7 @@
  * Validation Error occurs when given data fails a validation test
  */
 class ValidationError extends Error {
-  constructor(message = 'Validation Failed', protected validationMessages: string = '',
+  constructor(message: string = 'Validation Error', protected validationMessages: string = '',
               protected status: number = 400) {
     super(message)
     Object.setPrototypeOf(this, new.target.prototype)
