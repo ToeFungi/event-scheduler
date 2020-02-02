@@ -4,8 +4,9 @@
   "description": "Time based event scheduler using AWS infrastructure",
   "main": "index.ts",
   "scripts": {
-    "build": "webpack",
     "test": "mocha",
+    "build": "webpack",
+    "audit": "npm audit",
     "coverage": "nyc --reporter=lcov mocha",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
@@ -14,6 +15,11 @@
     "Event",
     "Scheduler",
     "DDB"
+  ],
+  "pre-commit": [
+    "lint",
+    "test",
+    "audit"
   ],
   "author": "Alex Pickering",
   "license": "MIT",
@@ -42,6 +48,7 @@
     "webpack": "^4.41.2",
     "mockdate": "^2.0.5",
     "ts-loader": "^6.2.1",
+    "pre-commit": "1.2.2",
     "sinon-chai": "^3.3.0",
     "typescript": "^3.7.2",
     "webpack-cli": "^3.3.10",
