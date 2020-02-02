@@ -1,0 +1,46 @@
+{
+  "required": [
+    "scheduledTime",
+    "callback",
+    "message"
+  ],
+  "properties": {
+    "scheduledTime": {
+      "$id": "#/properties/scheduledTime",
+      "type": "string"
+    },
+    "callback": {
+      "required": [
+        "type",
+        "url"
+      ],
+      "properties": {
+        "type": {
+          "$id": "#/properties/callback/properties/type",
+          "enum": [
+            "HTTP",
+            "SQS"
+          ]
+        },
+        "url": {
+          "$id": "#/properties/callback/properties/url",
+          "type": "string"
+        },
+        "headers": {
+          "$id": "#/properties/callback/properties/headers",
+          "type": "object"
+        }
+      },
+      "$id": "#/properties/callback",
+      "type": "object"
+    },
+    "message": {
+      "$id": "#/properties/message",
+      "type": "object"
+    }
+  },
+  "$id": "http://example.org/root.json#",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

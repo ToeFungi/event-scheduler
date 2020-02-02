@@ -1,6 +1,7 @@
 import { Ajv } from 'ajv'
 
 import { Validator } from '../types/Validator'
+import { ValidationError } from '../errors/ValidationError'
 
 /**
  * AJV Validator is an AJV implementation of the Validator interface and handles data validation against a given schema
@@ -12,7 +13,7 @@ class AJVValidator implements Validator {
   /**
    * @inheritDoc
    */
-  validate<T>(data: T, schema: object): Promise<T> {
+  public validate<T>(data: T, schema: object): Promise<T> {
     /**
      * Validate the data against the given schema
      */
@@ -25,7 +26,7 @@ class AJVValidator implements Validator {
       if (!isValid) {
         const errorStack = this.ajv.errorsText()
 
-        throw new Error(`Validation Error. ${errorStack}`)
+        throw new ValidationError('Validation Error', errorStack)
       }
     }
 
