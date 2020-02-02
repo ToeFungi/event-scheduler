@@ -15,7 +15,8 @@ module.exports = {
   resolve: {
     extensions: [
       '.ts',
-      '.js'
+      '.js',
+      '.json'
     ]
   },
   target: 'node',

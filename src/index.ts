@@ -1,9 +1,21 @@
+require('dotenv')
+  .config()
+
+import * as Ajv from 'ajv'
+
 import { DynamoDB } from 'aws-sdk'
 
 import { Version } from './lib/Version'
 import { Controller } from './Controller'
+import { AJVValidator } from './lib/AJVValidator'
 import { SchedulerService } from './services/SchedulerService'
 import { DynamoRepository } from './repositories/DynamoRepository'
+
+// Validators
+const ajv = new Ajv({
+  allErrors: true
+})
+const validator = new AJVValidator(ajv)
 
 // Repository
 const dynamoDB = new DynamoDB({
@@ -16,7 +28,7 @@ const ddbRepository = new DynamoRepository(dynamoDB)
 const schedulerService = new SchedulerService(ddbRepository)
 
 // Controller
-const controller = new Controller(schedulerService)
+const controller = new Controller(validator, schedulerService)
 
 // Handler
 console.log('EventScheduler', Version.getGitHash())

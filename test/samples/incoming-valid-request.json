@@ -1,0 +1,13 @@
+{
+  "scheduledTime": "2020-02-02T16:52:01.179Z",
+  "callback": {
+    "type": "HTTP",
+    "url": "https://en5vm2ctc5lfn.x.pipedream.net/",
+    "headers": {
+      "authentication": "Bearer some-token"
+    }
+  },
+  "message": {
+    "foo": "bar"
+  }
+}
