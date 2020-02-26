@@ -5,6 +5,8 @@
   ],
   "include": [
     "src/**/*",
-    "!src/errors/*Error.ts"
+    "!src/types/**/*.ts",
+    "!src/errors/**/*.ts",
+    "!src/models/**/*.ts"
   ]
 }

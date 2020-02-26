@@ -1,4 +1,4 @@
-import { ErrorMapper } from '../../../src/errors/ErrorMapper'
+import { ErrorMapper } from '../../../src/lib/ErrorMapper'
 import { ValidationError } from '../../../src/errors/ValidationError'
 
 import * as generalErrorResponse from '../../samples/errors/error-mapper-general-error.json'

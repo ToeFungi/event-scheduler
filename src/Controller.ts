@@ -2,7 +2,7 @@ import * as Logger from 'bunyan'
 
 import { Response } from './models/Response'
 import { Validator } from './types/Validator'
-import { ErrorMapper } from './errors/ErrorMapper'
+import { ErrorMapper } from './lib/ErrorMapper'
 import { ScheduledEvent } from './models/ScheduledEvent'
 import { LoggerFactory } from './factories/LoggerFactory'
 import { SchedulerService } from './services/SchedulerService'
