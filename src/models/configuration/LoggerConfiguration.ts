@@ -1,5 +1,5 @@
 /**
- * Representation of the configuration required by the logger factory
+ * Representation of the configuration required for logging
  */
 interface LoggerConfiguration {
   name: string
