@@ -4,8 +4,9 @@
   "description": "Time based event scheduler using AWS infrastructure",
   "main": "index.ts",
   "scripts": {
-    "build": "webpack",
     "test": "mocha",
+    "build": "webpack",
+    "audit": "npm audit",
     "coverage": "nyc --reporter=lcov mocha",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "integration": "ts-node test/integration/index.spec.ts"
@@ -17,6 +18,11 @@
     "Scheduler",
     "Time-based",
     "CloudWatch"
+  ],
+  "pre-commit": [
+    "lint",
+    "test",
+    "audit"
   ],
   "author": "Alex Pickering",
   "license": "MIT",
