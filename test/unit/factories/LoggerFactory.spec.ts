@@ -1,7 +1,7 @@
 import * as Logger from 'bunyan'
 
 import { LoggerFactory } from '../../../src/factories/LoggerFactory'
-import { LoggerConfiguration } from '../../../src/models/LoggerConfiguration'
+import { LoggerConfiguration } from '../../../src/models/configuration/LoggerConfiguration'
 
 describe('LoggerFactory', () => {
   const config = {

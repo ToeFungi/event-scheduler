@@ -1,6 +1,6 @@
 import * as Logger from 'bunyan'
 
-import { LoggerConfiguration } from '../models/LoggerConfiguration'
+import { LoggerConfiguration } from '../models/configuration/LoggerConfiguration'
 
 /**
  * Logger Factory creates named instances of loggers

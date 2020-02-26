@@ -1,6 +1,8 @@
 {
   "extends": "tslint-config-standard",
   "rules": {
+    "eofline": true,
+    "newline-per-chained-call": true,
     "space-before-function-paren": false
   }
 }
