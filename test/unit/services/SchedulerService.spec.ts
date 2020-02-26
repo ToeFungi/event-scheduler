@@ -3,8 +3,10 @@ import * as uuid from 'uuid'
 import { reset, set } from 'mockdate'
 import { createSandbox } from 'sinon'
 
-import { DynamoEvent } from '../../../src/types/DynamoEvent'
-import { ScheduledEvent } from '../../../src/types/ScheduledEvent'
+import { LoggerMock } from '../../support/mocks/LoggerMock'
+import { DynamoEvent } from '../../../src/models/DynamoEvent'
+import { ScheduledEvent } from '../../../src/models/ScheduledEvent'
+import { LoggerFactory } from '../../../src/factories/LoggerFactory'
 import { SchedulerService } from '../../../src/services/SchedulerService'
 import { DynamoRepository } from '../../../src/repositories/DynamoRepository'
 
@@ -18,18 +20,23 @@ describe('SchedulerService', () => {
     payload: scheduledEvent
   } as DynamoEvent
 
-  let uuidStub: any
+  const logger = new LoggerMock()
+
+  let loggerFactory: any
   let dynamoRepository: any
   let schedulerService: SchedulerService
 
   beforeEach(() => {
     set('2019-11-27T15:47:32.846Z')
-    uuidStub = sandbox.stub(uuid, 'v4')
+    sandbox.stub(uuid, 'v4')
       .returns('fcbdebcc-8f4f-4a95-b15d-502868626a6d')
 
+    loggerFactory = sandbox.createStubInstance(LoggerFactory)
     dynamoRepository = sandbox.createStubInstance(DynamoRepository)
 
-    schedulerService = new SchedulerService(dynamoRepository)
+    loggerFactory.getNamedLogger.returns(logger)
+
+    schedulerService = new SchedulerService(dynamoRepository, loggerFactory)
   })
 
   afterEach(() => {

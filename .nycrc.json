@@ -4,6 +4,7 @@
     ".ts"
   ],
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "!src/errors/*Error.ts"
   ]
 }

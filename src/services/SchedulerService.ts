@@ -2,22 +2,27 @@ import 'moment-timezone'
 
 import * as uuid from 'uuid'
 import * as moment from 'moment'
+import * as Logger from 'bunyan'
 
 import { AWSError } from 'aws-sdk'
 
-import { DynamoEvent } from '../types/DynamoEvent'
-import { ScheduledEvent } from '../types/ScheduledEvent'
+import { DynamoEvent } from '../models/DynamoEvent'
+import { ScheduledEvent } from '../models/ScheduledEvent'
+import { LoggerFactory } from '../factories/LoggerFactory'
 import { DynamoRepository } from '../repositories/DynamoRepository'
 
 /**
- * SchedulerService facilitates the creation of the event to be stored in DynamoDB
+ * SchedulerService facilitates the creation of the event to be stored in DDB
  */
 class SchedulerService {
-  constructor(protected ddbRepository: DynamoRepository) {
+  private logger: Logger
+
+  constructor(protected ddbRepository: DynamoRepository, loggerFactory: LoggerFactory) {
+    this.logger = loggerFactory.getNamedLogger('scheduler-service')
   }
 
   /**
-   * Create the event that will be stored in DynamoDB and call the repository
+   * Create the event that will be stored in DDB and call the repository
    */
   public createEvent(event: ScheduledEvent): Promise<void> {
     const payload: DynamoEvent = {
@@ -31,17 +36,17 @@ class SchedulerService {
     /**
      * Tap response and log success
      */
-    const tapResponse = () => console.debug('Successfully queries repository with payload')
+    const tapResponse = () => this.logger.debug('Successfully scheduled the event')
 
     /**
      * Tap and log error and rethrow the error
      */
     const tapError = (error: AWSError): never => {
-      console.error('Error occurred in SchedulerService', JSON.stringify({ message: error.message }))
+      this.logger.error('Error occurred while attempting to schedule the event', { message: error.message })
       throw error
     }
 
-    console.debug('Attempting to schedule event', JSON.stringify({ payload }))
+    this.logger.debug('Attempting to schedule event', { payload })
     return this.ddbRepository.scheduleEvent(payload)
       .then(tapResponse)
       .catch(tapError)

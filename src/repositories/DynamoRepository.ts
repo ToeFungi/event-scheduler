@@ -1,29 +1,34 @@
 import * as uuid from 'uuid'
+import * as Logger from 'bunyan'
 
 import { AWSError, DynamoDB } from 'aws-sdk'
 import { PutItemInput, PutItemOutput } from 'aws-sdk/clients/dynamodb'
 
-import { DynamoEvent } from '../types/DynamoEvent'
+import { DynamoEvent } from '../models/DynamoEvent'
+import { LoggerFactory } from '../factories/LoggerFactory'
 
 /**
  * DynamoRepository interacts with the DynamoDB table for scheduling of events
  */
 class DynamoRepository {
+  private logger: Logger
+
   /**
-   * DynamoDB table used for scheduled events
+   * DDB table used for scheduled events
    */
   private readonly table: string
 
-  constructor(protected ddb: DynamoDB) {
+  constructor(protected ddb: DynamoDB, loggerFactory: LoggerFactory) {
+    this.logger = loggerFactory.getNamedLogger('dynamo-repository')
     this.table = 'scheduled-events'
   }
 
   /**
-   * Inserts a new scheduled event into DynamoDB
+   * Inserts a new scheduled event into DDB
    */
   public scheduleEvent(event: DynamoEvent): Promise<void> {
     const params: PutItemInput = {
-      TableName: 'scheduled-events',
+      TableName: this.table,
       Item: {
         id: {
           S: uuid.v4()
@@ -38,21 +43,21 @@ class DynamoRepository {
     }
 
     /**
-     * Tap and log the response from DynamoDB
+     * Tap and log the response from DDB
      */
     const tapResponse = (response: PutItemOutput): void => {
-      console.debug('Item was put into DDB successfully', JSON.stringify({ response }))
+      this.logger.debug('Item was put into DDB successfully', { response })
     }
 
     /**
      * Tap error response and throw the error
      */
     const tapError = (error: AWSError): never => {
-      console.error('Error occurred in DynamoRepository', JSON.stringify({ message: error.message }))
+      this.logger.error('Error occurred while attempting to put new event into DDB', { message: error.message })
       throw error
     }
 
-    console.debug('Attempting to put new event into DynamoDB', JSON.stringify({ params }))
+    this.logger.debug('Attempting to put new event into DDB', { params })
     return this.ddb.putItem(params)
       .promise()
       .then(tapResponse)

@@ -1,13 +1,19 @@
+import * as Logger from 'bunyan'
+
 import { Ajv } from 'ajv'
 
 import { Validator } from '../types/Validator'
+import { LoggerFactory } from '../factories/LoggerFactory'
 import { ValidationError } from '../errors/ValidationError'
 
 /**
  * AJV Validator is an AJV implementation of the Validator interface and handles data validation against a given schema
  */
 class AJVValidator implements Validator {
-  constructor(protected ajv: Ajv) {
+  private logger: Logger
+
+  constructor(protected ajv: Ajv, loggerFactory: LoggerFactory) {
+    this.logger = loggerFactory.getNamedLogger('ajv-validator')
   }
 
   /**
@@ -26,6 +32,7 @@ class AJVValidator implements Validator {
       if (!isValid) {
         const errorStack = this.ajv.errorsText()
 
+        this.logger.error('Data failed validation against given schema', { errorStack })
         throw new ValidationError('Validation Error', errorStack)
       }
     }
@@ -34,11 +41,11 @@ class AJVValidator implements Validator {
      * Tap response and return the initial data passed
      */
     const tapResponse = (): T => {
-      console.log('Data passed validation against given schema')
+      this.logger.debug('Data passed validation against given schema')
       return data
     }
 
-    console.debug('Attempting to validate data against schema', { data, schema })
+    this.logger.debug('Attempting to validate data against schema', { data, schema })
     return Promise.resolve()
       .then(validateAgainstSchema)
       .then(throwIfInvalid)

@@ -1,7 +1,9 @@
 import { createSandbox } from 'sinon'
 
 import { AJVMock } from '../../support/mocks/AJVMock'
+import { LoggerMock } from '../../support/mocks/LoggerMock'
 import { AJVValidator } from '../../../src/lib/AJVValidator'
+import { LoggerFactory } from '../../../src/factories/LoggerFactory'
 import { ValidationError } from '../../../src/errors/ValidationError'
 
 describe('AJVValidator', () => {
@@ -12,13 +14,20 @@ describe('AJVValidator', () => {
     foo: 'bar'
   }
 
+  const logger = new LoggerMock()
+
   let ajv: any
+  let loggerFactory: any
   let ajvValidator: AJVValidator
 
   beforeEach(() => {
     ajv = AJVMock(sandbox)
 
-    ajvValidator = new AJVValidator(ajv)
+    loggerFactory = sandbox.createStubInstance(LoggerFactory)
+
+    loggerFactory.getNamedLogger.returns(logger)
+
+    ajvValidator = new AJVValidator(ajv, loggerFactory)
   })
 
   afterEach(() => {
