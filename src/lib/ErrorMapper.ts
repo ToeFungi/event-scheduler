@@ -1,5 +1,5 @@
 import { Response } from '../models/Response'
-import { ValidationError } from './ValidationError'
+import { ValidationError } from '../errors/ValidationError'
 
 /**
  * Error Mapper maps the errors thrown to appropriate responses when required
