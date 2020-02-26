@@ -1,4 +1,4 @@
-import { Response } from '../types/Response'
+import { Response } from '../models/Response'
 import { ValidationError } from './ValidationError'
 
 /**

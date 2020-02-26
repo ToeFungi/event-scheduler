@@ -1,7 +1,10 @@
-import { Response } from './types/Response'
+import * as Logger from 'bunyan'
+
+import { Response } from './models/Response'
 import { Validator } from './types/Validator'
 import { ErrorMapper } from './errors/ErrorMapper'
-import { ScheduledEvent } from './types/ScheduledEvent'
+import { ScheduledEvent } from './models/ScheduledEvent'
+import { LoggerFactory } from './factories/LoggerFactory'
 import { SchedulerService } from './services/SchedulerService'
 
 import * as incomingRequestSchema from '../schemas/incoming-request-schema.json'
@@ -10,7 +13,11 @@ import * as incomingRequestSchema from '../schemas/incoming-request-schema.json'
  * Controller orchestrates the various services and repositories to schedule an event
  */
 class Controller {
-  constructor(protected validator: Validator, protected schedulerService: SchedulerService) {
+  private logger: Logger
+
+  constructor(protected validator: Validator, protected schedulerService: SchedulerService,
+              loggerFactory: LoggerFactory) {
+    this.logger = loggerFactory.getNamedLogger('controller')
   }
 
   /**
@@ -21,14 +28,14 @@ class Controller {
      * Tap response and log success
      */
     const tapResponse = (): Response => {
-      console.log('Successfully scheduled event')
+      this.logger.debug('Successfully scheduled event')
       return {
         body: 'Message accepted for scheduling',
         statusCode: 201
       }
     }
 
-    console.log('Attempting to schedule event', { event })
+    this.logger.debug('Attempting to schedule event', { event })
     return this.validator.validate<ScheduledEvent>(event, incomingRequestSchema)
       .then(this.schedulerService.createEvent.bind(this.schedulerService))
       .then(tapResponse)
