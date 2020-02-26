@@ -3,6 +3,8 @@ import * as uuid from 'uuid'
 import { createSandbox } from 'sinon'
 
 import { DDBMock } from '../../support/mocks/DDBMock'
+import { LoggerMock } from '../../support/mocks/LoggerMock'
+import { LoggerFactory } from '../../../src/factories/LoggerFactory'
 import { DynamoRepository } from '../../../src/repositories/DynamoRepository'
 
 import * as dynamoQuery from '../../samples/repositories/dynamo-repository-dynamo-query.json'
@@ -11,17 +13,23 @@ import * as dynamoEvent from '../../samples/repositories/dynamo-repository-dynam
 describe('DynamoRepository', () => {
   const sandbox = createSandbox()
 
+  const logger = new LoggerMock()
+
   let ddbMock: any
-  let uuidStub: any
+  let loggerFactory: any
   let dynamoRepository: DynamoRepository
 
   beforeEach(() => {
     ddbMock = DDBMock(sandbox)
 
-    uuidStub = sandbox.stub(uuid, 'v4')
+    sandbox.stub(uuid, 'v4')
       .returns('fcbdebcc-8f4f-4a95-b15d-502868626a6d')
 
-    dynamoRepository = new DynamoRepository(ddbMock)
+    loggerFactory = sandbox.createStubInstance(LoggerFactory)
+
+    loggerFactory.getNamedLogger.returns(logger)
+
+    dynamoRepository = new DynamoRepository(ddbMock, loggerFactory)
   })
 
   afterEach(() => {

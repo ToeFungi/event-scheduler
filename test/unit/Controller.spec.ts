@@ -1,8 +1,10 @@
 import { createSandbox } from 'sinon'
 
 import { Controller } from '../../src/Controller'
+import { LoggerMock } from '../support/mocks/LoggerMock'
 import { AJVValidator } from '../../src/lib/AJVValidator'
-import { ScheduledEvent } from '../../src/types/ScheduledEvent'
+import { ScheduledEvent } from '../../src/models/ScheduledEvent'
+import { LoggerFactory } from '../../src/factories/LoggerFactory'
 import { ValidationError } from '../../src/errors/ValidationError'
 import { SchedulerService } from '../../src/services/SchedulerService'
 
@@ -16,15 +18,21 @@ describe('Controller', () => {
 
   const event = {} as ScheduledEvent
 
+  const logger = new LoggerMock()
+
   let validator: any
+  let loggerFactory: any
   let schedulerService: any
   let controller: Controller
 
   beforeEach(() => {
     validator = sandbox.createStubInstance(AJVValidator)
+    loggerFactory = sandbox.createStubInstance(LoggerFactory)
     schedulerService = sandbox.createStubInstance(SchedulerService)
 
-    controller = new Controller(validator, schedulerService)
+    loggerFactory.getNamedLogger.returns(logger)
+
+    controller = new Controller(validator, schedulerService, loggerFactory)
   })
 
   afterEach(() => {

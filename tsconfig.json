@@ -3,7 +3,9 @@
     "strict": true,
     "sourceMap": true,
     "noImplicitAny": true,
+    "noUnusedLocals": true,
     "resolveJsonModule": true,
+    "noUnusedParameters": true,
     "lib": [
       "es2018",
       "dom"
