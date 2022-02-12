@@ -27,7 +27,7 @@
   "author": "Alex Pickering",
   "license": "MIT",
   "dependencies": {
-    "ajv": "6.11.0",
+    "ajv": "6.12.3",
     "uuid": "3.3.3",
     "bunyan": "1.8.12",
     "moment": "2.24.0",
