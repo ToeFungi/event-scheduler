@@ -32,7 +32,7 @@
     "bunyan": "1.8.12",
     "moment": "2.24.0",
     "aws-sdk": "2.578.0",
-    "moment-timezone": "0.5.27"
+    "moment-timezone": "0.5.35"
   },
   "devDependencies": {
     "@types/ajv": "1.0.0",
